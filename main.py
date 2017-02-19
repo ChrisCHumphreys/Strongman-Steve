@@ -28,7 +28,8 @@ class Player(pygame.sprite.Sprite):
         self.walking = False
         self.frame = 0
         self.walking_frames_r = []
-
+        self.walking_frames_l = []
+        self.walking_direction = "r"
 
         # Load in all images to create Animation
         sprite_sheet = SpriteSheet("p2_walk.png")
@@ -55,7 +56,39 @@ class Player(pygame.sprite.Sprite):
         image = sprite_sheet.get_image(67, 274, 66, 90)
         self.walking_frames_r.append(image)
 
-
+        image = sprite_sheet.get_image(0, 0, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(66, 0, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(132, 0, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(0, 93, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(66, 93, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(132, 93, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(0, 184, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(66, 184, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(132, 184, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(0, 274, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
+        image = sprite_sheet.get_image(67, 274, 66, 90)
+        image = pygame.transform.flip(image, True, False)
+        self.walking_frames_l.append(image)
         # Create an image of the block and fill it with a color.
         # This could also be an image loaded from a disk
 
@@ -76,9 +109,14 @@ class Player(pygame.sprite.Sprite):
         self.velocity = 0
 
     def move_left(self):
+        self.walking_direction = "l"
         self.velocity = -3
+        self.frame += 1
+        self.walking = True
+
 
     def move_right(self):
+        self.walking_direction = "r"
         self.velocity = 3
         self.frame += 1
         self.walking = True
@@ -96,7 +134,10 @@ class Player(pygame.sprite.Sprite):
             self.frame += 1
             if self.frame > 10:
                 self.frame = 0
-        self.image = self.walking_frames_r[self.frame]
+        if self.walking_direction == "r":
+            self.image = self.walking_frames_r[self.frame]
+        if self.walking_direction == "l":
+            self.image = self.walking_frames_l[self.frame]
 
 pygame.init()
 
