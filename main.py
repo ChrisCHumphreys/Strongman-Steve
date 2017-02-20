@@ -1,143 +1,11 @@
-"""
- Pygame base template for opening a window
-
- Sample Python/Pygame Programs
- Simpson College Computer Science
- http://programarcadegames.com/
- http://simpson.edu/computer-science/
-
- Explanation video: http://youtu.be/vRB_983kUMc
-"""
+""" My version of a platformer, done with a ton of
+    guidance from http://www.balloonbuilding.com/ and
+    the Programming Arcade Games with Python and pygame
+    tutorials. """
 
 import pygame
+import player
 import constants
-from spritesheet_functions import SpriteSheet
-
-
-class Player(pygame.sprite.Sprite):
-    """This class represents the player, it derives from the sprite class"""
-
-    def __init__(self, color, width, height):
-        """Constructor, pass in the color of the block,
-        and its x and y position."""
-
-        # call the parent class Sprite Constructor
-        super().__init__()
-
-        # Lists to hold our walking and jumping animations
-        self.walking = False
-        self.frame = 0
-        self.walking_frames_r = []
-        self.walking_frames_l = []
-        self.walking_direction = "r"
-
-        # Load in all images to create Animation
-        sprite_sheet = SpriteSheet("p2_walk.png")
-        image = sprite_sheet.get_image(0, 0, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(66, 0, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(132, 0, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(0, 93, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(66, 93, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(132, 93, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(0, 184, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(66, 184, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(132, 184, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(0, 274, 66, 90)
-        self.walking_frames_r.append(image)
-        image = sprite_sheet.get_image(67, 274, 66, 90)
-        self.walking_frames_r.append(image)
-
-        image = sprite_sheet.get_image(0, 0, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(66, 0, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(132, 0, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(0, 93, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(66, 93, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(132, 93, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(0, 184, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(66, 184, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(132, 184, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(0, 274, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        image = sprite_sheet.get_image(67, 274, 66, 90)
-        image = pygame.transform.flip(image, True, False)
-        self.walking_frames_l.append(image)
-        # Create an image of the block and fill it with a color.
-        # This could also be an image loaded from a disk
-
-
-        self.image = self.walking_frames_r[0]
-        # self.image.fill(color)
-
-        # Fetch the rectangular object that has the dimensions of the image.
-        # Update the position of this object by setting the values
-        # of rect.x and rect.y
-        self.rect = self.image.get_rect()
-
-        # starting location
-        self.rect.x = 0
-        self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
-
-        # set inital velocity to O - or not moving
-        self.velocity = 0
-
-    def move_left(self):
-        self.walking_direction = "l"
-        self.velocity = -3
-        self.frame += 1
-        self.walking = True
-
-
-    def move_right(self):
-        self.walking_direction = "r"
-        self.velocity = 3
-        self.frame += 1
-        self.walking = True
-        # self.image = self.walking_frames_r[self.frame]
-
-    def stop(self):
-        self.velocity = 0
-        self.walking = False
-        self.frame = 0
-        # self.image = self.walking_frames_r[self.frame]
-
-    def update(self):
-        self.rect.x += self.velocity
-        if self.walking:
-            self.frame += 1
-            if self.frame > 10:
-                self.frame = 0
-        if self.walking_direction == "r":
-            self.image = self.walking_frames_r[self.frame]
-        if self.walking_direction == "l":
-            self.image = self.walking_frames_l[self.frame]
 
 pygame.init()
 
@@ -154,7 +22,7 @@ done = False
 clock = pygame.time.Clock()
 
 # create an instance of Player
-p1 = Player(constants.RED, 66, 90)
+p1 = player.Player(constants.PLAYER_WALKING_SPRITESHEET)
 
 # Add player to a sprite grounp - as far as I can tell the only way to render
 # is to have in a group first, and then to draw the group.
