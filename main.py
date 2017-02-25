@@ -6,6 +6,7 @@
 import pygame
 import player
 import constants
+import platforms
 
 pygame.init()
 
@@ -61,6 +62,7 @@ while not done:
     screen.fill(constants.WHITE)
 
     # --- Drawing code should go here
+    # test_plat = platforms.Platform(platforms.GRASS_LEFT)
 
     # update location of player 1 based on key presses
     p1.update()
